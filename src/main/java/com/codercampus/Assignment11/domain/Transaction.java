@@ -57,16 +57,5 @@ public class Transaction implements Serializable {
 				+ ", amount=" + amount + ", type=" + type + "]";
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Transaction)) return false;
-		Transaction that = (Transaction) o;
-		return Objects.equals(getDate(), that.getDate());
-	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(getDate());
-	}
 }

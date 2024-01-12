@@ -48,4 +48,9 @@ public class TransactionRepository {
 		} 
 		
 	}
+
+	public Transaction save(Transaction transaction) {
+		transactions.add(transaction);
+		return transaction;
+	}
 }
