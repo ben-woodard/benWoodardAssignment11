@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.stereotype.Repository;
-
 import com.codercampus.Assignment11.domain.Transaction;
 
 @Repository
@@ -31,11 +29,9 @@ public class TransactionRepository {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 
     public Transaction findById(Long transactionId) {
-        Transaction transByIndex = null;
         for (Transaction transaction : transactions) {
             if ((transaction.getId()).equals(transactionId)) {
                return transaction;

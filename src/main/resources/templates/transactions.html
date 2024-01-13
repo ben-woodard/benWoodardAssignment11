@@ -1,36 +1,42 @@
 <html xmlns:th="http://thymeleaf.org">
-	<head>
-		<title>Online Bank</title>
-		<link rel="stylesheet" href="/css/transactions.css"/>
-	</head>
-	<body>
-		<h2>Transaction History</h2>
-		<table>
+
+<head>
+	<title>Online Bank</title>
+	<link rel="stylesheet" href="/css/transactions.css" />
+</head>
+
+<body>
+	<h2>Transaction History</h2>
+	<table>
+		<tr>
+			<th>ID</th>
+			<th>Date</th>
+			<th>Retailer</th>
+			<th>Funds In</th>
+			<th>Funds Out</th>
+		</tr>
+		<div th:if="${transactionId != null}" method="get">
 			<tr>
-				<th>ID</th>
-				<th>Date</th>
-				<th>Retailer</th>
-				<th>Funds In</th>
-				<th>Funds Out</th>
-			</tr>
-			<div th:if="${transactionId != null}" method="get">
-			<tr>
-				<td><a th:href="@{/transactions/{transactionId}(transactionId=${transaction.id})}">[[${transaction.id}]]</a></td>
+				<td><a th:href="@{/transactions/{transactionId}(transactionId=${transaction.id})}"
+						th:text="${transaction.id}"></a></td>
 				<td th:text="${transaction.date}"></td>
 				<td th:text="${transaction.retailer}"></td>
 				<td th:text="${transaction.type=='D' ? transaction.amount : ''}"></td>
 				<td th:text="${transaction.type=='C' ? transaction.amount : ''}"></td>
 			</tr>
-			</div>
-			<div th:if="${transactionId == null}" method="get">
-				<tr th:each="transaction : ${transactions}">
-					<td><a th:href="@{/transactions/{transactionId}(transactionId=${transaction.id})}">[[${transaction.id}]]</a></td>
-					<td th:text="${transaction.date}"></td>
-					<td th:text="${transaction.retailer}"></td>
-					<td th:text="${transaction.type=='D' ? transaction.amount : ''}"></td>
-					<td th:text="${transaction.type=='C' ? transaction.amount : ''}"></td>
-				</tr>
-			</div>
-		</table>
-	</body>
+			<button method="get"><a th:href="@{/transactions}">Back</a></button>
+		</div>
+		<div th:if="${transactionId == null}" method="get">
+			<tr th:each="transaction : ${transactions}">
+				<td><a th:href="@{/transactions/{transactionId}(transactionId=${transaction.id})}"
+						th:text="${transaction.id}">[</a></td>
+				<td th:text="${transaction.date}"></td>
+				<td th:text="${transaction.retailer}"></td>
+				<td th:text="${transaction.type=='D' ? transaction.amount : ''}"></td>
+				<td th:text="${transaction.type=='C' ? transaction.amount : ''}"></td>
+			</tr>
+		</div>
+	</table>
+</body>
+
 </html>
