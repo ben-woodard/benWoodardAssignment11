@@ -1,42 +1,41 @@
 <html xmlns:th="http://thymeleaf.org">
 
 <head>
-	<title>Online Bank</title>
-	<link rel="stylesheet" href="/css/transactions.css" />
+    <title>Online Bank</title>
+    <link rel="stylesheet" href="/css/transactions.css" />
 </head>
 
 <body>
-	<h2>Transaction History</h2>
-	<table>
-		<tr>
-			<th>ID</th>
-			<th>Date</th>
-			<th>Retailer</th>
-			<th>Funds In</th>
-			<th>Funds Out</th>
-		</tr>
-		<div th:if="${transactionId != null}" method="get">
-			<tr>
-				<td><a th:href="@{/transactions/{transactionId}(transactionId=${transaction.id})}"
-						th:text="${transaction.id}"></a></td>
-				<td th:text="${transaction.date}"></td>
-				<td th:text="${transaction.retailer}"></td>
-				<td th:text="${transaction.type=='D' ? transaction.amount : ''}"></td>
-				<td th:text="${transaction.type=='C' ? transaction.amount : ''}"></td>
-			</tr>
-			<button method="get"><a th:href="@{/transactions}">Back</a></button>
-		</div>
-		<div th:if="${transactionId == null}" method="get">
-			<tr th:each="transaction : ${transactions}">
-				<td><a th:href="@{/transactions/{transactionId}(transactionId=${transaction.id})}"
-						th:text="${transaction.id}">[</a></td>
-				<td th:text="${transaction.date}"></td>
-				<td th:text="${transaction.retailer}"></td>
-				<td th:text="${transaction.type=='D' ? transaction.amount : ''}"></td>
-				<td th:text="${transaction.type=='C' ? transaction.amount : ''}"></td>
-			</tr>
-		</div>
-	</table>
+<!--Individual Transaction-->
+    <div th:if="${transactionId != null}">
+        <h1 th:if="${transaction.type=='C'}">Transaction ID: [[${transaction.id}]] (Credit)</h1>
+        <h1 th:if="${transaction.type=='D'}">Transaction ID: [[${transaction.id}]] (Debit)</h1>
+        <p>Date: [[${transaction.date}]] <br>
+            Amount: [[${transaction.amount}]] <br>
+            Description: [[${transaction.description}]]<br>
+            <button method="get"><a th:href="@{/transactions}">Back</a></button>
+        </p>
+    </div>
+
+<!--List of all transactions-->
+    <h2 th:if="${transactionId == null}">Transaction History</h2>
+    <table th:if="${transactionId == null}">
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Retailer</th>
+            <th>Funds In</th>
+            <th>Funds Out</th>
+        </tr>
+        <tr th:if="${transactionId == null}" method="get" th:each="transaction : ${transactions}">
+            <td><a th:href="@{/transactions/{transactionId}(transactionId=${transaction.id})}"
+                    th:text="${transaction.id}">[</a></td>
+            <td th:text="${transaction.date}"></td>
+            <td th:text="${transaction.retailer}"></td>
+            <td th:text="${transaction.type=='C' ? transaction.amount : ''}"></td>
+            <td th:text="${transaction.type=='D' ? transaction.amount : ''}"></td>
+        </tr>
+    </table>
 </body>
 
 </html>
