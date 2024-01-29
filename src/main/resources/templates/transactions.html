@@ -6,8 +6,8 @@
 </head>
 
 <body>
-<!--Individual Transaction-->
-    <div th:if="${transactionId != null}">
+    <!--Individual Transaction-->
+    <div th:if="${transaction != null}">
         <h1 th:if="${transaction.type=='C'}">Transaction ID: [[${transaction.id}]] (Credit)</h1>
         <h1 th:if="${transaction.type=='D'}">Transaction ID: [[${transaction.id}]] (Debit)</h1>
         <p>Date: [[${transaction.date}]] <br>
@@ -17,25 +17,31 @@
         </p>
     </div>
 
-<!--List of all transactions-->
-    <h2 th:if="${transactionId == null}">Transaction History</h2>
-    <table th:if="${transactionId == null}">
-        <tr>
-            <th>ID</th>
-            <th>Date</th>
-            <th>Retailer</th>
-            <th>Funds In</th>
-            <th>Funds Out</th>
-        </tr>
-        <tr th:if="${transactionId == null}" method="get" th:each="transaction : ${transactions}">
-            <td><a th:href="@{/transactions/{transactionId}(transactionId=${transaction.id})}"
-                    th:text="${transaction.id}">[</a></td>
-            <td th:text="${transaction.date}"></td>
-            <td th:text="${transaction.retailer}"></td>
-            <td th:text="${transaction.type=='C' ? transaction.amount : ''}"></td>
-            <td th:text="${transaction.type=='D' ? transaction.amount : ''}"></td>
-        </tr>
-    </table>
+    <!--List of all transactions-->
+    <div th:if="${transactions != null}">
+        <h2>Transaction History</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Retailer</th>
+                <th>Funds In</th>
+                <th>Funds Out</th>
+            </tr>
+            <tr method="get" th:each="transaction : ${transactions}">
+                <td><a th:href="@{/transactions/{transactionId}(transactionId=${transaction.id})}"
+                        th:text="${transaction.id}">[</a></td>
+                <td th:text="${transaction.date}"></td>
+                <td th:text="${transaction.retailer}"></td>
+                <td th:text="${transaction.type=='C' ? transaction.amount : ''}"></td>
+                <td th:text="${transaction.type=='D' ? transaction.amount : ''}"></td>
+            </tr>
+        </table>
+    </div>
+    <div th:if="${transaction == null && transactions == null}">
+        <p>No Transaction(s) Found</p>
+        <button method="get"><a th:href="@{/transactions}">Back</a></button>
+    </div>
 </body>
 
 </html>

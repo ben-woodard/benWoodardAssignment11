@@ -20,8 +20,8 @@ public class TransactionService {
 
     public List<Transaction> sortTransactionsByDate () {
       return transRepo.findAll().stream()
-               .sorted(Comparator.comparing(transaction -> transaction.getDate()))
-               .collect(Collectors.toList());
+                                .sorted(Comparator.comparing(Transaction::getDate))
+                                .collect(Collectors.toList());
     }
 
     public Transaction findById(Long transactionId) {
